@@ -1,0 +1,18 @@
+{
+  "name": "vue_me",
+  "version": "1.0.0",
+  "description": "vue record ",
+  "main": "app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "record",
+    "vuex",
+    "component",
+    "vue-router"
+  ],
+  "author": "libo",
+  "license": "ISC"
+}
