@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>监听子组件事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <blog-post title="First Blog"></blog-post> -->
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post @enlarge-text="onEnlargeText" v-for="post in posts" :key="post.id" :post="post"></blog-post>
+        </div>
+        <hr>
+        <input v-model="postFontSize">
+        <input type="text" :value="postFontSize" @input="postFontSize=$event.target.value"> 
+        <custom-input :value="postFontSize" @input="postFontSize=$event"></custom-input>
+    </div>
+</body>
+<script>
+Vue.component('blog-post', {
+    props: ['post'],
+    template: `
+        <div class="blog-post">
+            <h3>{{post.title}}</h3>
+            <button @click="$emit('enlarge-text', 0.1)">Enlarge text</button>
+            <div v-html="post.content"></div>
+        </div>
+    `
+});
+
+Vue.component('custom-input', {
+    props: ['value'],
+    template: `
+        <input :value="value" @input="$emit('input', $event.target.value)"></input>
+    `
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+       posts: [
+           {id: 0, title: 'First blog', content:'...content'},
+           {id: 1, title: 'Second blog', content: '...content'},
+           {id: 2, title: 'Third blog', content: '...content'}
+       ],
+       postFontSize: 1
+    },
+
+    methods: {
+        onEnlargeText: function(enlargeAmount) {
+            this.postFontSize+=enlargeAmount;
+        }
+    }
+});
+
+/*
+* 父组件监听子组件事件
+* 父组件监听 v-on:event=""  (@event="")
+* 子组件触发 $emit(event)
+* 
+* 子组件触发某事件， 向父元素发出事件信号， 父元素接受到信号查询自己是否监听改该事件
+*/
+
+/*
+* 子组件向父组件传值
+* $emit(event, data)
+*
+* 父组件接收子组件传值
+* 1. @event="$event" $event为子组件抛出的data
+* 2. 绑定方法
+*   function(data) {
+*       //data为子组件所传数据
+*   }
+*/
+</script>
+</html>

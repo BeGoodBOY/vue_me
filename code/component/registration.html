@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+</body>
+<script>
+
+
+var app = new Vue({
+    el: '#app'
+});
+
+
+/*
+*  定义组件名有两种方式：
+*  1. kebab-case
+*  Vue.component('my-component-name', {});
+*  2. PascalCase 
+*  Vue.component('MyComponentName', {});
+
+*  全局注册: 可以用在任何新创建的Vue根实例中
+*  Vue.component('my-component-name', {});
+
+*  局部注册: 
+*  全局注册往往是不够理想的。比如，如果你使用一个像 webpack 这样的构建系统，
+*  全局注册所有的组件意味着即便你已经不再使用一个组件了，它仍然会被包含在你最终的构建结果中。
+*  这造成了用户下载的 JavaScript 的无谓的增加。
+*  new Vue({
+*   el: '#app',
+*   components: {
+*      'component-a': ComponentA,
+*      'component-b': ComponentB
+*    }
+*  })
+
+*  基础组件的自动化全局注册
+*  webpack或Vue CLI3+
+*  main.js
+*  import Vue from 'vue'
+*  imnport uppperFirst from 'loadash/upperFirst'
+*  import camelCase from 'loadash/camelCase'
+
+*  const requireComponent = require.context(
+*  //其组件目录的相对路径
+*  './components',
+*  //是否查询其子目录
+*  false,
+*  //匹配基础组件文件名的正则表达式
+*  /Base[A-Z]\w+\.(vue|js)$/
+*  );
+*/
+</script>
+</html>
