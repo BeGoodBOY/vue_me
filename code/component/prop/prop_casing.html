@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prop的大小写</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <blog-post post-title="first article"></blog-post>
+    </div>
+</body>
+<script>
+/*
+** HTML 中的特性名是大小写不敏感的，
+** 所以浏览器会把所有大写字符解释为小写字符。
+** 这意味着当你使用 DOM 中的模板时，
+** camelCase (驼峰命名法) 的 prop 名需要使用其等价的 kebab-case (短横线分隔命名) 命名：
+*/
+Vue.component('blog-post', {
+    props: ['postTitle'],
+    template: `
+        <h3>{{ postTitle }}</h3>
+    `
+});
+
+var app = new Vue({
+    el: '#app'
+});
+</script>
+</html>

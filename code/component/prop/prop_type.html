@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prop类型</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <post-blog title=434></post-blog>
+    </div>
+</body>
+<script>
+//字符串数组形式：
+//['title', 'likes', 'isPublished', 'commentIds', 'author']
+
+//但是，通常你希望每个 prop 都有指定的值类型。这时，你可以以对象形式列出 prop，
+//这些属性的名称和值分别是 prop 各自的名称和类型：
+Vue.component('post-blog', {
+    props: {
+        title: String,
+        likes: Number,
+        isPublished: Boolean,
+        commentIds: Array,
+        author: Object,
+        callback: Function,
+        contactsPromise: Promise
+    },
+    template: `
+        <div>
+        <h3>{{ title }}</h3>
+        <p>{{ likes }}</p>
+        <div>{{ author }}</div>
+        </div>
+    `
+});
+
+var app = new Vue({
+    el: '#app'
+});
+</script>
+</html>
