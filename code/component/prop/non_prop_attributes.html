@@ -43,15 +43,15 @@ Vue.component('test-input', {
 });
 // 给test-input添加data-test会添加到该组件的根元素上
 
-/*
+/* 
 ** 替换合并已有的特性
-** 对于绝大多数特性来说，从外部提供给组件的值会替换掉组件内部设置好的值。所以如果传入 type="number" 就会替换掉 type="tezt" 并把它破坏！
+** 对于绝大多数特性来说，从外部提供给组件的值会替换掉组件内部设置好的值。所以如果传入 type="number" 就会替换掉 type="text" 并把它破坏！
 ** 庆幸的是，class 和 style 特性会稍微智能一些，即两边的值会被合并起来，从而得到最终的值：nomal-input my-input。
 */
 
 // #禁用特性继承
 /*
-** 如果你不希望组件的根元素继承特性，你可以在组件的选项中设置inheritAttrs: false. 例如：
+** 如果你不希望组件的根元素继承特性(而是特定元素)，你可以在组件的选项中设置inheritAttrs: false. 例如：
 */
 Vue.component('test-inherit-attrs', {
     inheritAttrs: false

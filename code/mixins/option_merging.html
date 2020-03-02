@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选项合并</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+</body>
+<script>
+// 组件加入混入对象，同一个配置会进行恰当的合并
+// 比如，数据对象在内部会进行递归合并，并在发生冲突时以组件数据优先。
+var mixin = {
+    data: function() {
+        return {
+            message: 'hello',
+            foo: 'abc'
+        }
+    }
+}
+
+new Vue({
+    mixins: [mixin],
+    data: function() {
+        return {
+            message: 'goodbye',
+            bar: 'def'
+        }
+    },
+    created: function() {
+        console.log(this.$data); //{message: 'goodbye', bar: 'def', foo:'abc'}
+    }
+
+});
+
+// 同名钩子函数将合并为一个数组，因此都将被调用。
+// 另外，混入对象的钩子将在组件自身钩子之前调用。
+var mixin1 = {
+    created: function() {
+        console.log('混入对象钩子调用');
+    }
+}
+
+new Vue({
+    mixins: [mixin1],
+    created: function() {
+        console.log('组件自身钩子调用');
+    }
+});
+
+// 值为对象的选项，例如 methods、components 和 directives，将被合并为同一个对象。两个对象键名冲突时，取组件对象的键值对。
+var mixin2 = {
+    methods: {
+        foo: function() {
+            console.log('foo');
+        },
+        conflicting: function() {
+            console.log('from mixin');
+        }
+    }
+}
+
+var vm = new Vue({
+    mixins: [mixin2],
+    methods: {
+        bar: function() {
+            console.log('bar');
+        },
+        conflicting: function() {
+            console.log('from self');
+        }
+    }
+});
+
+vm.foo();
+vm.bar();
+vm.conflicting();3
+</script>
+</html>
