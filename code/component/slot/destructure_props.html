@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>解构插槽Prop</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <current-user v-slot="{ user }">
+            es2015解构来传入具体的插槽prop:
+           {{ user.firstName }}
+       </current-user>
+       <current-user v-slot="{ user : person}">
+            重命名：
+            {{ person.firstName }}
+       </current-user>
+    </div>
+</body>
+<script>
+// 作用域插槽的内部工作原理是将你的插槽内容包括在一个传入单个参数的函数里
+function slotFn(slotProps) {}
+// 这意味v-slot值可以是任何作为函数参数的类型，可以用es2015解构来传入具体的插槽prop：
+
+
+Vue.component('current-user', {
+    data: function() {
+        return {
+            user: {
+                firstName: 'Jannifor',
+                lastName: 'Thomas',
+                // midName: '434'
+            }
+        }
+    },
+    template: `<p>
+                    <slot :user="user">{{user.lastName}}</slot>
+               </p>`
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+    }
+});
+</script>
+</html>

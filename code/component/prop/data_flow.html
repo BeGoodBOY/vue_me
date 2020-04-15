@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="app">
+        <test-one initial-counter='1'></test-one>
     </div>
 </body>
 <script>
@@ -28,7 +29,8 @@ Vue.component('test-one', {
         return {
             counter: this.initialCounter
         }
-    }
+    },
+    template: '<div>{{counter}}</div>'
 });
 
 /*

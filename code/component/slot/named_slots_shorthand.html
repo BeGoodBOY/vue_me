@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>具名插槽的缩写</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 在向具名插槽提供内容的时候，我们可以在一个<template>元素上使用 v-slot 指令，并以 v-slot 的参数的形式提供其名称： -->
+        <base-layout>
+            <template #header>
+                <h3>This is a header</h3>
+            </template>
+            <template #default="{ user }">
+                <p>Main content 1</p>
+                <p>Main content 2</p>
+            </template>
+            <template #footer>
+                <h3>This is a footer</h3>
+            </template>
+        </base-layout>
+    </div>
+</body>
+<script>
+//有时我们需要多个插槽，例如一个带有如下模版的 <base-layout> 组件：
+//对于这种情况，slot元素提供了name属性，可以用来定义额外的插槽
+//没有定义name属性的slot带有隐含的名字"default"
+Vue.component('base-layout', {
+    data: function() {
+        return {
+            user: {
+                firstName: 'DaDa',
+                lastName: 'DiDi'
+            }
+        }
+    },
+    template: `<div class="container">
+                    <header>
+                        <slot name="header"></slot>
+                    </header>
+                    <main>
+                        <slot :user="user"></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>
+                    </footer>
+               </div>`
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+    }
+});
+</script>
+</html>

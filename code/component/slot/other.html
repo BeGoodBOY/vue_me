@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>其他示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <todo-list :list="list">
+            <template v-slot:todo="{ todo }">
+                <span v-if="todo.age<18">未成年：</span>
+                {{ todo.name }}
+            </template>
+        </todo-list>
+    </div>
+</body>
+<script>
+// 插槽prop允许我们将插槽转化为可复用的模版，这些模版可以基于输入的prop渲染出不同的内容。这在设计封装数据逻辑同时允许父级组件自定义部分布局的可复用组件时是最有用的
+Vue.component('todo-list', {
+    props: {
+        list: Array
+    },
+    template: `
+        <ul>
+            <li v-for="todo in list" :key="todo.id">
+                <slot name="todo" :todo="todo">
+                    {{ todo.name }}
+                </slot>
+            </li>
+        </ul>
+    `
+});
+
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        list: [
+            {name: 'Jack', age: 18},
+            {name: 'Steve', age: 16},
+            {name: 'Gase', age: 99}
+        ]
+    }
+});
+</script>
+</html>

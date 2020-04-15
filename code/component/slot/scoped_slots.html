@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作用域插槽</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <current-user></current-user>
+        <!-- 我们想要换掉备用属性, 但是无法访问到组件内部属性 -->
+        <!-- <current-user>{{ user.firstName }}</current-user> -->
+        <!-- 为了让 user 在父级插槽的内容中可用我们可以将user作为一个属性绑定到slot上去 -->
+
+        <!-- 绑定在slot元素上的属性被称为插槽prop。现在在父级作用域中，我们可以使用带值的v-slot来定义我们提供的插槽prop的名字 -->
+        <current-user>
+            <template v-slot:default="slotProps">
+                {{ slotProps.user.firstName }}
+            </template>
+        </current-user>
+
+        <!-- 独占默认插槽的缩写语法 -->
+        <!-- 在被提供的内容只有默认插槽时，组件的标签可以被当作插槽的模版来使用： -->
+        <current-user v-slot:default="slotProps">
+           独占默认插槽： {{ slotProps.user.firstName }}
+        </current-user>
+        <!-- 还可以更简单 -->
+        <current-user v-slot="slotProps">
+            独占简易写法： {{ slotProps.user.lastName }}
+        </current-user>
+
+        <!-- 默认插槽不能和具名插槽混用 -->
+    </div>
+</body>
+<script>
+//有时让插槽内容能够访问子组件中才有的数据是很有用的。例如：
+// 为了让 user 在父级插槽的内容中可用我们可以将user作为一个属性绑定到slot上去
+Vue.component('current-user', {
+    data: function() {
+        return {
+            user: {
+                firstName: 'Jannifor',
+                lastName: 'Thomas'
+            }
+        }
+    },
+    template: `<p>
+                    <slot :user="user">{{user.lastName}}</slot>
+               </p>`
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+    }
+});
+</script>
+</html>

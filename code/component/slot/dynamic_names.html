@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态插槽名</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <current-user>
+            <template v-slot:slotName> 默认插槽</template>
+            <template v-slot:[test]></template>
+        </current-user>
+    </div>
+</body>
+<script>
+// 动态指令参数也可以用在v-slot上，来定义动态的插槽名：
+
+Vue.component('current-user', {
+    data: function() {
+        return {
+            user: {
+                firstName: 'DaDa',
+                lastName: 'DiDi'
+            }
+        }
+    },
+    template: `<div>
+                    <div>
+                   <slot :user="user">{{user.firstName}}</slot> 
+                   </div>
+                   <div>
+                    <slot name="footer"> This is footer </slot>
+                   </div>
+               </div>`
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        slotName: 'default',
+        test: 'footer'
+    }
+});
+</script>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插槽内容</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <navigation-link :url="url.index">主页<span>(Homepage)</span></navigation-link>
+        <navigation-link :url="url.about">关于我们</navigation-link>
+    </div>
+</body>
+<script>
+// 插槽内可以包含任何模版代码 包括html, 甚至其他组件
+Vue.component('navigation-link', {
+    props: {
+        url: String
+    },
+    data: function() {
+        return {
+        }
+    },
+    template: '<a v-bind:href="url" class="nav-link"><slot></slot></a>'
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        url: {
+            index: 'index.html',
+            about: 'about.html'
+        }
+    }
+});
+</script>
+</html>

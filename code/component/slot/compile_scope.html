@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编译作用域</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <navigation-link url="/profile">
+            Logged in {{ user.name }}
+            <!-- <p>{{ url }}</p> -->
+            <!-- <p>{{ test }}</p> -->
+        </navigation-link>
+    </div>
+</body>
+<script>
+//该插槽跟模板的访问域是同级别的，可以访问相同的实例属性 (也就是相同的“作用域”)，而不能访问 <navigation-link> 内部。例如 url 是访问不到的：
+Vue.component('navigation-link', {
+    props: {
+        url: String
+    },
+    data: function() {
+        return {
+           test: 'from cmpn'
+        }
+    },
+    template: '<a :href="url"><slot></slot></a>'
+});
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        user: {
+            name: 'Stake'
+        }
+    }
+});
+</script>
+</html>
