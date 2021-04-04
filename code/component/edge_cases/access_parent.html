@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>访问父级组件实例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <cmpnt-a></cmpnt-a>
+    </div>
+</body>
+<script>
+// 和$root类似，$parent属性可以用来从一个子组件访问父组件的实例。它提供了一种机会，可以在后期随时触达父级组件，以替代将数据以prop的方式传入子组件的方式
+// 大多数情况触达父组件会让你的应用更难调试和理解，特别是当修改了父组件数据的时候并不是太好追踪修改发起点
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        foo: 1
+    },
+    computed: {
+        bar: function() {}
+    },
+    methods: {
+        baz: function() {}
+    },
+    components: {
+        'cmpnt-a': {
+            data: function() {
+                return {
+                    cmpntFoo: this.$root.foo
+                }
+            },
+            template: `<div>{{ cmpntFoo }}</div>`
+        }
+        
+    }
+});
+</script>
+</html>

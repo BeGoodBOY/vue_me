@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>异步组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <async-component></async-component>
+    </div>
+</body>
+<script>
+// 大型应用需要将应用分割成小一些的代码块，只要在需要时再从服务器加载某个模块。
+// 为了简化，Vue允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。
+// Vue只有在这个组件需要被渲染的时候才会触发该工厂函数并且把结果缓存起来用来重新渲染需要：
+Vue.component('async-component', function(resolve, reject) {
+    setTimeout(function() {
+        // 向resolve组件传递组件定义
+        resolve({
+            template: `<div>This is an async example</div>`
+        });
+    }, 1000);
+});
+
+// 从服务器获取到组件时会触发回调。
+// setTimeout用于演示，如何获取组件取决环境。
+// 推荐做法：异步组件和webpack的code-splitting功能配合使用
+Vue.component('async-webpack', function(resolve) {
+    require(['./async-component'], resolve);
+});
+
+//可以在工厂函数返回一个Promise，webpack2和es2015语法加在一起如下：
+Vue.component('async-webpack-promise', 
+    //import会返回一个Promise对象
+    () => import('./async-component')
+);
+
+// 局部注册时，可以直接返回一个Promise
+new Vue({
+    component: {
+        'cmpnt': () => import('./async-component')
+    }
+});
+
+
+var app = new Vue({
+    el: '#app',
+    data: {
+
+    }
+});
+</script>
+</html>

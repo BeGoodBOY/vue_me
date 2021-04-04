@@ -39,6 +39,9 @@
         <!-- 即便对象是静态的，我们仍然需要 `v-bind` 来告诉 Vue -->
         <!-- 这是一个 JavaScript 表达式而不是一个字符串。-->
 
+        <!-- 传入对象 -->
+        <blog :author="{name: 'steven', company:'apple'}"></blog>
+
     </div>
 </body>
 <script>
@@ -48,6 +51,7 @@ Vue.component('blog', {
         likes: Number,
         isPublished: Boolean,
         commentsIds: Array,
+        author: Object
     },
     template: `
         <div>
@@ -55,6 +59,7 @@ Vue.component('blog', {
             <p>{{ likes }}</p>
             <p>isPublished: {{ isPublished }}</p>
             <p>comments-ids: {{ commentsIds }}</p>
+            <p>{{ author.name }}</p>
         </div>
     `
 });

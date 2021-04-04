@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>访问根实例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <cmpnt-a></cmpnt-a>
+    </div>
+</body>
+<script>
+// 在每个Vue实例的子组件中，其根实例可以通过$root属性进行访问，如下：
+var app = new Vue({
+    el: '#app',
+    data: {
+        foo: 1
+    },
+    computed: {
+        bar: function() {}
+    },
+    methods: {
+        baz: function() {}
+    },
+    components: {
+        'cmpnt-a': {
+            data: function() {
+                return {
+                    cmpntFoo: this.$root.foo
+                }
+            },
+            template: `<div>{{ cmpntFoo }}</div>`
+        }
+        
+    }
+});
+// 所有子组件都可以将这个实例作为一个全局store来访问或使用
+// this.$root访问或修改根对象元素
+// 对于demo或小型少量组件来说这么操作很方便，对于大中型项目最好还是用Vuex来管理应用状态
+</script>
+</html>

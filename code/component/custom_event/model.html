@@ -9,13 +9,61 @@
 </head>
 <body>
     <div id="app">
+        <base-checkbox v-model="test"></base-checkbox>
+        <base-input v-on:focus.native="onFocus"></base-input>
     </div>
 </body>
 <script>
 
+Vue.component('base-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    checked: Boolean
+  },
+  template: `
+    <input
+      type="checkbox"
+      v-bind:checked="checked"
+      v-on:change="$emit('change', $event.target.checked)"
+    >
+  `
+})
+
+Vue.component('base-input', {
+    props: {
+        label: String,
+        value: String
+    },
+    template: `
+        <label>
+            {{ label }}
+            <input v-bind="$attrs" v-bind:value="value" v-on:input="$emit('input', $event.target.value)">
+        </label>
+    `,
+    computed: {
+        inputListeners: function() {
+            var vm = this;
+            return Object.assign({}, 
+                this.$listeners,
+                {
+                    input: function(event) {
+                        vm.$emit('input', event.target.value)
+                    }
+                }
+            );
+        }
+    }
+});
 
 var app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        test: 'loveingVue'
+    }
 });
+
 </script>
 </html>
